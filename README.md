@@ -325,6 +325,24 @@ class APILogsModel(Model):
 
 ```
 
+### Define your own APILogsModel class
+You can define your own model extending from APILogsModel which includes custom functionality.
+```python
+DRF_API_LOGGER_CLASS: str = 'myapp.models.MyAPILogsModel'  # Replace with actual model name.
+```
+
+### Define your own APILogsAdmin class
+You can define your own admin class extending from APILogsAdmin which includes custom functionality.
+Remember to unregister the original admin class which gets registered by default and register yours:
+```python
+class MyAPILogsAdmin(APILogsAdmin):
+    ...
+
+admin.site.unregister(APILogsModel)
+admin.site.register(MyAPILogsModel, MyAPILogsAdmin)
+```
+If you don't use a custom `APILogsAdmin`, there is no need to manually register your custom `APILogsModel`
+
 ### Note:
 After some time, there will be too much data in the database. Searching and filtering may get slower.
 If you want, you can delete or archive the older data.
