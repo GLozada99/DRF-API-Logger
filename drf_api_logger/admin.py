@@ -1,3 +1,4 @@
+import importlib
 from datetime import timedelta
 
 from django.conf import settings
@@ -152,5 +153,9 @@ if database_log_enabled():
         def has_change_permission(self, request, obj=None):
             return False
 
+
+    if hasattr(settings, 'DRF_API_LOGGER_CLASS'):
+        APILogsModel_path = getattr(settings, 'DRF_API_LOGGER_CLASS')
+        APILogsModel = importlib.import_module(APILogsModel_path)
 
     admin.site.register(APILogsModel, APILogsAdmin)

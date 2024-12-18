@@ -1,3 +1,4 @@
+import importlib
 from queue import Queue
 import time
 from django.conf import settings
@@ -5,6 +6,10 @@ from threading import Thread
 from django.db.utils import OperationalError
 
 from drf_api_logger.models import APILogsModel
+
+if hasattr(settings, 'DRF_API_LOGGER_CLASS'):
+    APILogsModel_path = getattr(settings, 'DRF_API_LOGGER_CLASS')
+    APILogsModel = importlib.import_module(APILogsModel_path)
 
 
 class InsertLogIntoDatabase(Thread):
